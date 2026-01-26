@@ -1,7 +1,8 @@
 # app/main.py
 from fastapi import FastAPI
-from app.api import analyze
+from app.api import analyze, llms
 from app.core.lifespan import lifespan
+from app.middleware.response_wrapper import ResponseWrapperMiddleware
 
 app = FastAPI(
     title="AI Doctor Backend",
@@ -10,9 +11,8 @@ app = FastAPI(
 )
 
 
+app.add_middleware(ResponseWrapperMiddleware)
+
+
 app.include_router(analyze.router)
-
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+app.include_router(llms.router)
