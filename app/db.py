@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
 )
 from sqlalchemy.orm import declarative_base
+from app.core.config import settings
 
 engine: Optional[AsyncEngine] = None
 async_session: Optional[async_sessionmaker[AsyncSession]] = None
@@ -17,7 +18,7 @@ Base = declarative_base()
 def init_db(database_url: str) -> None:
     """Create async engine and sessionmaker. Call this at app startup."""
     global engine, async_session
-    engine = create_async_engine(database_url, future=True, echo=False)
+    engine = create_async_engine(settings.database_url_async, future=True, echo=False)
     async_session = async_sessionmaker(
         engine, expire_on_commit=False, class_=AsyncSession
     )
