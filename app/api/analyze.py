@@ -2,6 +2,7 @@
 from fastapi import APIRouter
 from app.schemas.analyze import AnalyzePayload
 from app.services.analyze_service import AnalyzeService
+
 from app.core.config import settings
 
 
