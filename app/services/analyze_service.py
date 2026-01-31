@@ -4,6 +4,7 @@ from app.schemas.analyze import AnalyzePayload
 from app.prompt.analyze_image import generate_prompt
 from google.genai import types
 import json
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class AnalyzeService:
@@ -13,7 +14,7 @@ class AnalyzeService:
             b64 = b64.split(",", 1)[1]
         return base64.b64decode(b64)
 
-    async def analyze(self, payload: AnalyzePayload):
+    async def analyze(self, payload: AnalyzePayload, db: AsyncSession):
         image_bytes = self.base64_to_bytes(payload.data)
         client = get_gemini_client()
         # 构造提示词
@@ -29,5 +30,13 @@ class AnalyzeService:
             ],
             config=types.GenerateContentConfig(response_mime_type="application/json"),
         )
+        # TODO: 解析 response，提取所需信息，记录使用的 token 数量
+        total_token_count = json.loads(response.json())["usage_metadata"][
+            "total_token_count"
+        ]
+        # temp['usage_metadata']['total_token_count']
+        print(f"Total token count: {total_token_count}")
+        # 将分析结果返回给调用方
         result = json.loads(response.text)
+        result["total_token_count"] = total_token_count
         return result

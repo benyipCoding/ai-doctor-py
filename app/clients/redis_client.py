@@ -1,9 +1,7 @@
 from typing import Optional
-
 import redis.asyncio as redis
-
 from app.core.config import settings
-
+from fastapi_limiter import FastAPILimiter
 
 redis_client: Optional[redis.Redis] = None
 
@@ -28,6 +26,7 @@ async def init_redis() -> None:
     try:
         await redis_client.ping()
         print("✅ Redis connected")
+        await FastAPILimiter.init(redis_client)
     except Exception as exc:
         print("⚠️ Redis connection failed:", exc)
         raise
