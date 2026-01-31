@@ -17,7 +17,6 @@ analyze_service = AnalyzeService()
 @router.post("/image", response_model=APIResponse[AnalyzeResponse])
 async def analyze(payload: AnalyzePayload):
     try:
-        raise NotImplementedError("Analyze endpoint is not yet implemented.")
         result = await analyze_service.analyze(payload)
         return APIResponse(data=result)
     except Exception as e:
