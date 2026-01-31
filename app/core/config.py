@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     jwt_access_token_expires_minutes: int = 60
     cookie_secure: bool = False
     cookie_samesite: str = "lax"
+    # Redis settings
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_db: int = 0
+    redis_username: str | None = None
+    redis_password: str | None = None
 
     class Config:
         env_file = ".env"
