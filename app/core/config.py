@@ -12,6 +12,13 @@ class Settings(BaseSettings):
     # sync: Alembic / CLI / migration 使用
     database_url_sync: str
 
+    # JWT / Cookie settings for auth
+    jwt_secret_key: str = "change_me"
+    jwt_algorithm: str = "HS256"
+    jwt_access_token_expires_minutes: int = 60
+    cookie_secure: bool = False
+    cookie_samesite: str = "lax"
+
     class Config:
         env_file = ".env"
 

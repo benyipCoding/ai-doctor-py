@@ -1,6 +1,7 @@
 # app/main.py
 from fastapi import FastAPI
 from app.api import analyze, llms
+from app.api import auth
 from app.core.lifespan import lifespan
 
 # from app.middleware.response_wrapper import ResponseWrapperMiddleware
@@ -17,3 +18,4 @@ app = FastAPI(
 
 app.include_router(analyze.router)
 app.include_router(llms.router)
+app.include_router(auth.router)

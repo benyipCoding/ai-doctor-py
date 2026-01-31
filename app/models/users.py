@@ -1,0 +1,12 @@
+from sqlalchemy import Column, String, Boolean
+from app.models.base import Base
+from app.models.mixins import TimestampMixin
+
+
+class Users(Base, TimestampMixin):
+    __tablename__ = "users"
+
+    username = Column(String(100), unique=True, index=True, nullable=False)
+    email = Column(String(200), unique=True, index=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    is_active = Column(Boolean, default=True)
