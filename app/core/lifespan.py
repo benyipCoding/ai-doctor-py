@@ -12,8 +12,8 @@ async def lifespan(app: FastAPI):
     init_gemini_client()
     print("✅ Gemini client initialized")
     # 初始化数据库（如果配置了 DATABASE_URL ）
-    if settings.database_url:
-        init_db(settings.database_url)
+    if settings.database_url_async:
+        init_db(settings.database_url_async)
         print("✅ Database engine initialized")
 
     yield

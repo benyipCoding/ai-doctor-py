@@ -1,4 +1,3 @@
-# app/schemas/response.py
 from typing import Generic, TypeVar, Optional
 from pydantic import BaseModel
 
