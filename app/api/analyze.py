@@ -9,6 +9,7 @@ from fastapi import Depends
 from app.db import get_db
 from fastapi_limiter.depends import RateLimiter
 from fastapi import Request
+from app.deps.auth import get_current_user
 
 
 router = APIRouter(prefix="/analyze", tags=["Analyze"])
@@ -26,7 +27,9 @@ async def ai_rate_limit_key(request: Request):
     "/image",
     response_model=APIResponse[AnalyzeResponse],
     dependencies=[
-        Depends(RateLimiter(times=5, seconds=60, identifier=ai_rate_limit_key))
+        Depends(get_current_user),
+        Depends(RateLimiter(times=5, seconds=60, identifier=ai_rate_limit_key)),
+        # Depends(ai_guard),
     ],
 )
 async def analyze(payload: AnalyzePayload, db: AsyncSession = Depends(get_db)):
