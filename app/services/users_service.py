@@ -44,7 +44,7 @@ class UsersService:
 
     def create_access_token(self, data: dict) -> str:
         to_encode = data.copy()
-        expire = datetime.utcnow() + timedelta(
+        expire = datetime.now() + timedelta(
             minutes=settings.jwt_access_token_expires_minutes
         )
         to_encode.update({"exp": expire})
